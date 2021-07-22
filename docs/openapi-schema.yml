@@ -1054,7 +1054,9 @@ components:
           description: Список ингредиентов
           type: array
           items:
-            example: [{'id': 1123, 'amount': 10}, {'id': 1015, 'amount': 25}]
+            example:
+              id: 1123
+              amount: 10
             type: object
             properties:
               id:
