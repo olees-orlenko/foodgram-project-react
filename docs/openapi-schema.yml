@@ -644,11 +644,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SetPassword'
       responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SetPassword'
+        '204':
           description: 'Пароль успешно изменен'
         '400':
           $ref: '#/components/responses/ValidationError'
@@ -671,7 +667,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenCreate'
+                $ref: '#/components/schemas/TokenGetResponse'
           description: ''
       tags:
       - Пользователи
@@ -1043,6 +1039,11 @@ components:
         password:
           type: string
         email:
+          type: string
+    TokenGetResponse:
+      type: object
+      properties:
+        auth_token:
           type: string
     RecipeCreateUpdate:
       type: object
