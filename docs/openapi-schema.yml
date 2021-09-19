@@ -211,8 +211,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-        '403':
-          $ref: '#/components/responses/403'
+        '401':
+          $ref: '#/components/schemas/AuthenticationError'
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
@@ -236,7 +236,7 @@ paths:
               schema:
                 type: string
                 format: binary
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Список покупок
@@ -286,8 +286,10 @@ paths:
           description: 'Рецепт успешно обновлен'
         '400':
           $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/AuthenticationError'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/PermissionDenied'
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
@@ -308,8 +310,10 @@ paths:
       responses:
         '204':
           description: 'Рецепт успешно удален'
+        '401':
+          $ref: '#/components/responses/AuthenticationError'
         '403':
-          $ref: '#/components/responses/403'
+          $ref: '#/components/responses/PermissionDenied'
         '404':
           $ref: '#/components/responses/NotFound'
       tags:
@@ -340,7 +344,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
 
       tags:
@@ -366,7 +370,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Избранное
@@ -396,7 +400,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Список покупок
@@ -421,7 +425,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Список покупок
@@ -447,7 +451,7 @@ paths:
           description: ''
         '404':
           $ref: '#/components/responses/NotFound'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
         - Пользователи
@@ -465,7 +469,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Пользователи
@@ -521,7 +525,7 @@ paths:
                       $ref: '#/components/schemas/UserWithRecipes'
                     description: 'Список объектов текущей страницы'
           description: ''
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Подписки
@@ -557,7 +561,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -584,7 +588,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfMadeError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
         '404':
           $ref: '#/components/responses/NotFound'
@@ -648,7 +652,7 @@ paths:
           description: 'Пароль успешно изменен'
         '400':
           $ref: '#/components/responses/ValidationError'
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Пользователи
@@ -687,7 +691,7 @@ paths:
             application/json:
               schema: {}
           description: ''
-        '403':
+        '401':
           $ref: '#/components/responses/AuthenticationError'
       tags:
       - Пользователи
@@ -1174,14 +1178,6 @@ components:
             $ref: '#/components/schemas/NotFound'
 
 
-    403:
-      description: 'Пользователь не авторизован / Недостаточно прав'
-      content:
-        application/json:
-          schema:
-            oneOf:
-              - $ref: '#/components/schemas/AuthenticationError'
-              - $ref: '#/components/schemas/PermissionDenied'
   securitySchemes:
     Token:
       description: 'Авторизация по токену. <br>
