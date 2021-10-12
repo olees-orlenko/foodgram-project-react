@@ -189,7 +189,7 @@ paths:
       - Рецепты
     post:
       security:
-        - token: []
+        - Token: []
       operationId: Создание рецепта
       description: 'Доступно только авторизованному пользователю'
       parameters: []
