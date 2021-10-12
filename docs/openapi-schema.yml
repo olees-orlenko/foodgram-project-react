@@ -819,7 +819,7 @@ components:
           description: 'Находится ли в избранном'
         is_in_shopping_cart:
           type: boolean
-          description: 'Находится ли в избранном'
+          description: 'Находится ли в корзине'
         name:
           type: string
           maxLength: 200
