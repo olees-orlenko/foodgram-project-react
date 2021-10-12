@@ -728,6 +728,7 @@ components:
           type: boolean
           readOnly: true
           description: "Подписан ли текущий пользователь на этого"
+          example: false
       required:
       - username
     UserWithRecipes:
