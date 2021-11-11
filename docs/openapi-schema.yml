@@ -432,7 +432,7 @@ paths:
   /api/users/{id}/:
     get:
       operationId: Профиль пользователя
-      description: 'Доступно только авторизованным пользователям.'
+      description: 'Доступно всем пользователям.'
       security:
         - Token: [ ]
       parameters:
