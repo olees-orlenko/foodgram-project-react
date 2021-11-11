@@ -784,7 +784,7 @@ components:
         color:
           type: string
           nullable: true
-          maxLength: 200
+          maxLength: 7
           description: 'Цвет в HEX'
           example: '#E26C2D'
         slug:
