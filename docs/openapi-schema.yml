@@ -794,8 +794,6 @@ components:
           pattern: ^[-a-zA-Z0-9_]+$
           description: 'Уникальный слаг'
           example: 'breakfast'
-      required:
-      - name
     RecipeList:
       type: object
       properties:
