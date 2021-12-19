@@ -20,7 +20,7 @@ const HomePage = ({ updateOrders }) => {
     handleAddToCart
   } = useRecipes()
 
-  
+
   const getRecipes = ({ page = 1, tags }) => {
     api
       .getRecipes({ page, tags })
@@ -46,7 +46,7 @@ const HomePage = ({ updateOrders }) => {
   return <Main>
     <Container>
       <MetaTags>
-        <title>Рецепты111</title>
+        <title>Рецепты</title>
         <meta name="description" content="Продуктовый помощник - Рецепты" />
         <meta property="og:title" content="Рецепты" />
       </MetaTags>
