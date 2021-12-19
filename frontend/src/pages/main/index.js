@@ -46,7 +46,7 @@ const HomePage = ({ updateOrders }) => {
   return <Main>
     <Container>
       <MetaTags>
-        <title>Рецепты</title>
+        <title>Рецепты111</title>
         <meta name="description" content="Продуктовый помощник - Рецепты" />
         <meta property="og:title" content="Рецепты" />
       </MetaTags>
@@ -54,7 +54,10 @@ const HomePage = ({ updateOrders }) => {
         <Title title='Рецепты' />
         <CheckboxGroup
           values={tagsValue}
-          handleChange={handleTagsChange}
+          handleChange={value => {
+            setRecipesPage(1)
+            handleTagsChange(value)
+          }}
         />
       </div>
       <CardList>
@@ -69,6 +72,7 @@ const HomePage = ({ updateOrders }) => {
       <Pagination
         count={recipesCount}
         limit={6}
+        page={recipesPage}
         onPageChange={page => setRecipesPage(page)}
       />
     </Container>
