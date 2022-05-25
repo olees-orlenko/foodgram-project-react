@@ -605,7 +605,7 @@ paths:
           in: query
           description: Поиск по частичному вхождению в начале названия ингредиента.
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           content:
@@ -627,7 +627,7 @@ paths:
           required: true
           description: ''
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           content:
