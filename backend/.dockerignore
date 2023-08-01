@@ -1,0 +1,9 @@
+venv
+.git 
+db.sqlite3 
+.idea
+.vscode
+.env
+venv
+/etc
+/log

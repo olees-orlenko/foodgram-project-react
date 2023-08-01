@@ -1,18 +1,8 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 
-from recipe.models import (FavoritesList,
-                           Ingredients,
-                           Recipe,
-                           RecipeIngredients,
-                           ShoppingList,
-                           Subscription,
-                           Tag,
-                           User)
-
-
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'username', 'email', 'first_name', 'last_name')
-    list_filter = ('username', 'email')
+from recipe.models import (FavoritesList, Ingredients, Recipe,
+                           RecipeIngredients, ShoppingList, Subscription, Tags)
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
@@ -23,6 +13,13 @@ class RecipeIngredientsInline(admin.TabularInline):
     model = RecipeIngredients
     extra = 1
 
+    def save_model(self, request, obj, form, change):
+        if not obj.ingredients.exists() or not obj.tags.exists():
+            raise ValidationError(
+                "Добавьте в рецепт ингредиенты и тэг"
+            )
+        super().save_model(request, obj, form, change)
+
 
 class RecipeAdmin(admin.ModelAdmin):
     inlines = (RecipeIngredientsInline, )
@@ -32,20 +29,33 @@ class RecipeAdmin(admin.ModelAdmin):
         'author',
         'text',
         'cooking_time',
-        'in_favorites_list'
+        'in_favorites_list',
+        '_ingredients'
     )
-    list_editable = ('name', 'cooking_time', 'text', 'author')
-    search_fields = ('name', 'author')
-    list_filter = ('name', 'author', 'tag')
+    list_editable = ('name',
+                     'cooking_time',
+                     'text',
+                     'author')
+    search_fields = ('name', 'author', '_ingredients')
+    list_filter = ('name', 'author', 'tags', 'ingredients')
     empty_value_display = '-пусто-'
 
     @admin.display(description='Избранное')
     def in_favorites_list(self, obj):
         return obj.favoriteslist.count()
 
+    def _ingredients(self, row):
+        return ', '.join([x.name for x in row.ingredients.all()])
 
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'colour', 'slug')
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        form.save_m2m()
+        if not form.cleaned_data.get('ingredients'):
+            super().save_model(request, obj, form, change)
+
+
+class TagsAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'color', 'slug')
 
 
 class IngredientsAdmin(admin.ModelAdmin):
@@ -63,18 +73,12 @@ class ShoppingListAdmin(admin.ModelAdmin):
 
 
 class FavoritesListAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'get_favorite_recipe')
-
-    @admin.display(description='Любимые рецепты')
-    def get_favorite_recipe(self, obj):
-        return [
-            f'{item["name"]} ' for item in obj.recipe.values('name')[:5]]
+    list_display = ('pk', 'user')
 
 
-admin.site.register(User, UserAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Tag, TagAdmin)
+admin.site.register(Tags, TagsAdmin)
 admin.site.register(Ingredients, IngredientsAdmin)
 admin.site.register(RecipeIngredients, RecipeIngredientsAdmin)
 admin.site.register(ShoppingList, ShoppingListAdmin)

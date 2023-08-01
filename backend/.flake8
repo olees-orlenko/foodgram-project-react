@@ -1,11 +1,11 @@
 [flake8]
 ignore = 
-    E123,
-    E126
+    #E123,
+    #E501
 exclude =
     migrations,
     __pycache__,
     manage.py,
-    settings.py,
+    #settings.py,
 per-file-ignores = 
-    */settings.py:E123
+    */settings.py:E501
