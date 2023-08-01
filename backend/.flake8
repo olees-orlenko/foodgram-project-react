@@ -1,0 +1,11 @@
+[flake8]
+ignore = 
+    E123,
+    E126
+exclude =
+    migrations,
+    __pycache__,
+    manage.py,
+    settings.py,
+per-file-ignores = 
+    */settings.py:E123
