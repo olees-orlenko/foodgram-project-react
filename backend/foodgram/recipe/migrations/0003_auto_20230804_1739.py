@@ -3,9 +3,9 @@
 import api.validators
 import colorfield.fields
 import django.core.validators
-from django.db import migrations, models
 import django.db.models.deletion
 import django.db.models.expressions
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):

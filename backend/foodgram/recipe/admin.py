@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
-
 from recipe.models import (FavoritesList, Ingredients, Recipe,
                            RecipeIngredients, ShoppingList, Subscription, Tags)
 

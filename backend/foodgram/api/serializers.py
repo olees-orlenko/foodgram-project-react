@@ -1,14 +1,14 @@
+import re
+
+from api.validators import validate_amount, validate_username
 from django.core.validators import MinValueValidator
 from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
+from recipe.models import (FavoritesList, Ingredients, Recipe,
+                           RecipeIngredients, ShoppingList, Subscription, Tags)
 from rest_framework import serializers
-
-from api.validators import validate_amount, validate_username
-from recipe.models import (FavoritesList,
-                           Ingredients, Recipe, RecipeIngredients,
-                           ShoppingList, Subscription, Tags)
-from users.models import (EMAIL_LENGTH, USERNAME_PASSWORD_LENGTH, User)
+from users.models import EMAIL_LENGTH, USERNAME_PASSWORD_LENGTH, User
 
 
 class UserSerializer(UserSerializer):
@@ -193,6 +193,13 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     ingredients = RecipeIngredientsCreateSerializer(
         many=True)
     cooking_time = serializers.IntegerField()
+
+    def validate_name(self, value):
+        if re.match(r'^[0-9\W]+$', value):
+            raise serializers.ValidationError(
+                'Название рецепта не может состоять только из цифр и знаков.'
+            )
+        return value
 
     def validate_tags(self, value):
         if not value:

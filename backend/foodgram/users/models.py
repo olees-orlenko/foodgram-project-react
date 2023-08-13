@@ -1,8 +1,7 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
 from api.validators import validate_username
 from constants import EMAIL_LENGTH, USERNAME_PASSWORD_LENGTH
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class User(AbstractUser):

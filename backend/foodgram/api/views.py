@@ -1,14 +1,3 @@
-from django.db.models import Sum
-from django.db.models.functions import Lower
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import exceptions, filters, status, viewsets
-from rest_framework.decorators import action
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-
 from api.filters import SlugFilter
 from api.permissions import IsAuthorOrAdminOrReadOnly
 from api.serializers import (FavoritesList, IngredientsSerializer,
@@ -16,8 +5,18 @@ from api.serializers import (FavoritesList, IngredientsSerializer,
                              RecipeSerializer, SetPasswordSerializer,
                              SubscriptionSerializer, TagSerializer,
                              UserCreateSerializer, UserSerializer)
+from django.db.models import Sum
+from django.db.models.functions import Lower
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from recipe.models import (Ingredients, Recipe, RecipeIngredients,
                            ShoppingList, Subscription, Tags, User)
+from rest_framework import exceptions, filters, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -177,7 +176,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 class IngredientsViewSet(viewsets.ModelViewSet):
     queryset = Ingredients.objects.all()
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('^name', )
+    search_fields = ('name', )
+    ordering_fields = ('name', )
     permission_classes = (AllowAny,)
     serializer_class = IngredientsSerializer
     pagination_class = None
@@ -186,8 +186,9 @@ class IngredientsViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         ingredient_query = self.request.query_params.get('name')
         if ingredient_query:
-            queryset = queryset.filter(
-                name__startswith=ingredient_query[0].lower())
+            for i in range(1, len(ingredient_query) + 1):
+                ingredient_name = ingredient_query[:i]
+                queryset = queryset.filter(name__istartswith=ingredient_name)
         queryset = queryset.annotate(lower_name=Lower('name'))
         queryset = queryset.order_by('lower_name')
         return queryset

@@ -1,9 +1,8 @@
+from api.validators import validate_time
 from colorfield.fields import ColorField
+from constants import COLOUR_LENGTH, SLUG_NAME_LENGTH
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-from api.validators import validate_time
-from constants import COLOUR_LENGTH, SLUG_NAME_LENGTH
 from users.models import User
 
 

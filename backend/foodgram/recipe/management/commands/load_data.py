@@ -1,7 +1,6 @@
 import csv
 
 from django.core.management import BaseCommand
-
 from foodgram import settings
 from recipe.models import Ingredients
 
