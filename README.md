@@ -52,7 +52,7 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Перейтеи в каталог infra
+Перейти в каталог infra
 ```
 cd foodgram-project-react/infra
 ```
@@ -85,7 +85,7 @@ docker compose -f docker-compose.production.yml exec backend python manage.py co
 docker compose -f docker-compose.production.yml exec backend python manage.py load_data
 ```
 
-Создать суперпользователя, ввести - почту, логин, пароль:
+Создать суперпользователя, ввести почту, логин, пароль:
 
 ```
 docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
