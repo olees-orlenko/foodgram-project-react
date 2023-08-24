@@ -1,8 +1,6 @@
 ## Описание проекта
 «Продуктовый помощник», на котором пользователи могут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», скачивать список продуктов, необходимых для приготовления выбранных блюд.
 Ссылка на сайт: https://foodgram.serveblog.net
-логин: admin
-пароль: admin
 
 ## Технологии
 •	Python 3.9
@@ -54,14 +52,42 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Выполнить миграции:
+Перейтеи в каталог infra
+```
+cd foodgram-project-react/infra
+```
+
+Создать файл .evn для хранения ключей:
 
 ```
-python3 manage.py migrate
+SECRET_KEY='указать секретный ключ'
+ALLOWED_HOSTS='указать имя или IP хоста'
+POSTGRES_DB=foodgram
+POSTGRES_USER=foodgram_user
+POSTGRES_PASSWORD=foodgram_password
+DB_NAME=foodgram
+DB_HOST=db
+DB_PORT=5432
+DEBUG=False
 ```
 
-Запустить проект:
+Запустить docker-compose.production:
 
 ```
-python3 manage.py runserver
+docker compose -f docker-compose.production.yml up
 ```
+
+Выполнить миграции, сбор статики и загрузку ингредиентов:
+
+```
+docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --no-input
+docker compose -f docker-compose.production.yml exec backend python manage.py load_data
+```
+
+Создать суперпользователя, ввести - почту, логин, пароль:
+
+```
+docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
+```
+
